@@ -1,33 +1,44 @@
 package tech.sethi.pebbles.pokeplushie
 
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.TextDecoration
-import net.kyori.adventure.text.minimessage.MiniMessage
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.text.Text
 
 object PM {
-
-    fun parseMessageWithStyles(text: String, placeholder: String): Component {
-        var mm = MiniMessage.miniMessage();
-        return mm.deserialize(text.replace("{placeholder}", placeholder)).decoration(TextDecoration.ITALIC, false)
-    }
-
     fun returnStyledText(text: String): Text {
-        val component = parseMessageWithStyles(text, "placeholder")
-        val gson = GsonComponentSerializer.gson()
-        val json = gson.serialize(component)
-        return Text.Serializer.fromJson(json) as Text
+        val formattedText = text
+            .replace("<red>", "§c")
+            .replace("</red>", "§r")
+            .replace("<aqua>", "§b")
+            .replace("</aqua>", "§r")
+            .replace("<green>", "§a")
+            .replace("</green>", "§r")
+            .replace("<yellow>", "§e")
+            .replace("</yellow>", "§r")
+            .replace("<blue>", "§9")
+            .replace("</blue>", "§r")
+            .replace("<white>", "§f")
+            .replace("</white>", "§r")
+            .replace("<gray>", "§7")
+            .replace("</gray>", "§r")
+        
+        return Text.literal(formattedText.replace(Regex("<[^>]+>"), ""))
     }
 
     fun returnStyledJson(text: String): String {
-        val component = parseMessageWithStyles(text, "placeholder")
-        val gson = GsonComponentSerializer.gson()
-        val json = gson.serialize(component)
-        return json
+        val color = when {
+            text.contains("<red>") -> "red"
+            text.contains("<aqua>") -> "aqua"
+            text.contains("<green>") -> "green"
+            text.contains("<yellow>") -> "yellow"
+            text.contains("<blue>") -> "blue"
+            text.contains("<gray>") -> "gray"
+            else -> "white"
+        }
+        
+        val cleanText = text.replace(Regex("<[^>]+>"), "")
+        return """{"text":"$cleanText","color":"$color","italic":false}"""
     }
 
     fun setLore(itemStack: ItemStack, lore: List<String>) {
