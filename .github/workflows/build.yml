@@ -22,4 +22,8 @@ jobs:
       run: chmod +x gradlew
     
     - name: Build with Gradle
+<<<<<<< HEAD
       run: ./gradlew build --stacktrace --info
+=======
+      run: ./gradlew build
+>>>>>>> 4d38e48b2aadad55ba736f28f3587bff2f451e2f

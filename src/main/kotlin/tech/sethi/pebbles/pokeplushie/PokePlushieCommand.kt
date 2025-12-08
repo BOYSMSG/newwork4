@@ -8,7 +8,6 @@ import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 
 object PokePlushiesCommand {
-
     val slotSuggestions: List<Int> = listOf(1, 2, 3, 4, 5, 6)
 
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
@@ -21,9 +20,7 @@ object PokePlushiesCommand {
                     )
                 }
                 .executes { ctx ->
-
                     val slotNumber = IntegerArgumentType.getInteger(ctx, "slotNumber")
-
                     val success = BuyPlushie().buyPlushie(ctx.source.player!!, slotNumber)
 
                     if (success) {
@@ -33,10 +30,12 @@ object PokePlushiesCommand {
                         )
                         1
                     } else {
-                        PM.returnStyledText("<red>Failed to get a plushie!</red>").also { ctx.source.sendFeedback({ it }, false) }
+                        ctx.source.sendFeedback(
+                            { PM.returnStyledText("<red>Failed to get a plushie!</red>") },
+                            false
+                        )
                         0
                     }
-
                 }
             )
 

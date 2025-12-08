@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "pokefunblock",
+  "id": "pokeplushie",
   "version": "${version}",
-  "name": "Pokefun Block",
+  "name": "PokePlushie",
   "description": "Converted from pokeplushie sources - Fabric 1.21.1",
   "entrypoints": {
     "main": [
@@ -12,6 +12,7 @@
   "depends": {
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",
-    "minecraft": "1.21.1"
+    "minecraft": "1.21.1",
+    "cobblemon": "*"
   }
 }
