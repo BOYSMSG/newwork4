@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.22"
     id("fabric-loom") version "1.7.4"
+    id("maven-publish")
 }
 
 group = "tech.sethi.pebbles.pokeplushie"
@@ -9,6 +10,11 @@ version = "1.0.0"
 repositories {
     mavenCentral()
     maven("https://maven.fabricmc.net/")
+    maven("https://maven.terraformersmc.com/")
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.cobblemon.com/releases")  // Cobblemon
+    maven("https://maven.architectury.dev/")  // Architectury
+    maven("https://repo.kryptonmc.org/releases")  // Adventure
 }
 
 dependencies {
@@ -16,12 +22,51 @@ dependencies {
     mappings("net.fabricmc:yarn:1.21.1+build.2:v2")
     modImplementation("net.fabricmc:fabric-loader:0.16.7")
     modImplementation("net.fabricmc.fabric-api:fabric-api:0.103.0+1.21.1")
-
+    
+    // Cobblemon
+    modImplementation("com.cobblemon:fabric:1.6.2+1.21.1")
+    
+    // Architectury
+    modImplementation("dev.architectury:architectury-fabric:13.0.4")
+    
+    // Adventure API (for text formatting)
+    include(implementation("net.kyori:adventure-platform-fabric:5.15.0")!!)
+    include(implementation("net.kyori:adventure-text-minimessage:4.17.0")!!)
+    include(implementation("net.kyori:adventure-text-serializer-gson:4.17.0")!!)
+    
+    // Kotlin
     implementation(kotlin("stdlib"))
+    
+    // Remove or fix PebblesEconomy if you don't have it
+    // modImplementation("tech.sethi:pebbleseconomy:1.0.0")
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "21"
+    }
 }
 
 tasks {
     jar {
         from("src/main/resources")
+    }
+    
+    processResources {
+        inputs.property("version", project.version)
+        filesMatching("fabric.mod.json") {
+            expand("version" to project.version)
+        }
+    }
+    
+    java {
+        withSourcesJar()
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
     }
 }
