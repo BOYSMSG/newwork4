@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Java 21
@@ -18,10 +18,9 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew || true
-
-      - name: Build (Gradle)
+      # IMPORTANT FIX: ensure we run in the correct root folder
+      - name: Build with Gradle
+        working-directory: .
         run: ./gradlew --no-daemon clean build
 
       - name: Upload JAR artifacts
