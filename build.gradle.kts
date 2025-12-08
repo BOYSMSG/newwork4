@@ -10,11 +10,8 @@ version = "1.0.0"
 repositories {
     mavenCentral()
     maven("https://maven.fabricmc.net/")
-    maven("https://maven.terraformersmc.com/")
-    maven("https://maven.shedaniel.me/")
-    maven("https://maven.cobblemon.com/releases")  // Cobblemon
-    maven("https://maven.architectury.dev/")  // Architectury
-    maven("https://repo.kryptonmc.org/releases")  // Adventure
+    maven("https://maven.cobblemon.com/releases")
+    maven("https://repo.kryptonmc.org/releases")
 }
 
 dependencies {
@@ -26,19 +23,13 @@ dependencies {
     // Cobblemon
     modImplementation("com.cobblemon:fabric:1.6.2+1.21.1")
     
-    // Architectury
-    modImplementation("dev.architectury:architectury-fabric:13.0.4")
-    
-    // Adventure API (for text formatting)
+    // Adventure API
     include(implementation("net.kyori:adventure-platform-fabric:5.15.0")!!)
     include(implementation("net.kyori:adventure-text-minimessage:4.17.0")!!)
     include(implementation("net.kyori:adventure-text-serializer-gson:4.17.0")!!)
     
     // Kotlin
     implementation(kotlin("stdlib"))
-    
-    // Remove or fix PebblesEconomy if you don't have it
-    // modImplementation("tech.sethi:pebbleseconomy:1.0.0")
 }
 
 kotlin {
