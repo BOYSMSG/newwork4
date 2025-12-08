@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "pokefunblock",
+  "version": "${version}",
+  "name": "Pokefun Block",
+  "description": "Converted from pokeplushie sources - Fabric 1.21.1",
+  "entrypoints": {
+    "main": [
+      "tech.sethi.pebbles.pokeplushie.fabric.PokePlushieFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "fabric-api": "*",
+    "minecraft": "1.21.1"
+  }
+}
