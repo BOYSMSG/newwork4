@@ -1,66 +1,44 @@
 plugins {
-    kotlin("jvm") version "1.9.22"
-    id("fabric-loom") version "1.7.4"
-    id("maven-publish")
+    id("java")
+    id("java-library")
+    kotlin("jvm") version "2.0.20"
+
+    // Architectury Loom for MC 1.21.1
+    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
+
+    // Architectury plugin (must match Architectury 13.x)
+    id("architectury-plugin") version "3.4-SNAPSHOT" apply false
 }
 
-group = "tech.sethi.pebbles.pokeplushie"
-version = "1.0.0"
+allprojects {
 
-repositories {
-    mavenCentral()
-    maven("https://maven.fabricmc.net/")
-    maven("https://repo.kryptonmc.org/releases")
-}
+    apply(plugin = "java")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
 
-dependencies {
-    minecraft("com.mojang:minecraft:1.21.1")
-    mappings("net.fabricmc:yarn:1.21.1+build.2:v2")
-    modImplementation("net.fabricmc:fabric-loader:0.16.7")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:0.103.0+1.21.1")
-    
-<<<<<<< HEAD
-=======
-    // Adventure API
-    include(implementation("net.kyori:adventure-platform-fabric:5.15.0")!!)
-    include(implementation("net.kyori:adventure-text-minimessage:4.17.0")!!)
-    include(implementation("net.kyori:adventure-text-serializer-gson:4.17.0")!!)
-    
-    // Kotlin
->>>>>>> 4d38e48b2aadad55ba736f28f3587bff2f451e2f
-    implementation(kotlin("stdlib"))
-}
+    version = project.properties["mod_version"]!!
+    group = project.properties["maven_group"]!!
 
-kotlin {
-    jvmToolchain(21)
-}
+    repositories {
+        mavenCentral()
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "21"
-    }
-}
+        // Cobblemon Maven
+        maven("https://maven.impactdev.net/repository/development/")
 
-tasks {
-    jar {
-        from("src/main/resources")
-    }
-    
-    processResources {
-        inputs.property("version", project.version)
-        filesMatching("fabric.mod.json") {
-            expand("version" to project.version)
+        // In-project JAR libs folder
+        flatDir {
+            dirs("libs")
         }
     }
-<<<<<<< HEAD
-}
-=======
-    
+
     java {
-        withSourcesJar()
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21))
+            languageVersion.set(JavaLanguageVersion.of(21)) // REQUIRED for MC 1.21+
         }
+        withSourcesJar()
+    }
+
+    dependencies {
+        // Ensure all modules use Kotlin stdlib automatically
+        implementation(kotlin("stdlib"))
     }
 }
->>>>>>> 4d38e48b2aadad55ba736f28f3587bff2f451e2f

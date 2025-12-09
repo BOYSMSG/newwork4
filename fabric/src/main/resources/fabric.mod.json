@@ -1,0 +1,32 @@
+{
+    "schemaVersion": 1,
+    "id": "pokeplushie",
+    "version": "${version}",
+    "name": "PokePlushie",
+    "description": "Adds Cobblemon plushies you can buy and collect.",
+    "authors": [
+        "Pebbles",
+        "Navneet"
+    ],
+    "contact": {
+        "issues": "https://github.com/navneetset/pokeplushies/issues",
+        "sources": "https://github.com/navneetset/pokeplushies"
+    },
+    "license": "MIT",
+    "icon": "icon.png",
+    "environment": "*",
+
+    "entrypoints": {
+        "main": [
+            "tech.sethi.pebbles.pokeplushie.fabric.PokePlushieFabric"
+        ]
+    },
+
+    "depends": {
+        "minecraft": "~1.21.1",
+        "fabricloader": ">=0.16.5",
+        "fabric-api": "*",
+        "architectury": ">=13.0.0",
+        "cobblemon": ">=1.7.1"
+    }
+}
