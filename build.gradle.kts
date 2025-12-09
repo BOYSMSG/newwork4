@@ -1,48 +1,29 @@
 plugins {
-    id("java")
-    id("java-library")
-    kotlin("jvm") version "2.0.20"
-
-    // Architectury plugin (used only at root)
-    id("architectury-plugin") version "3.4-SNAPSHOT"
-
-    // Loom (applied in subprojects, not root)
-    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
+    id("fabric-loom") version "1.7-SNAPSHOT"   // Use 1.7+ for MC 1.21.x
+    id("maven-publish")
 }
 
-architectury {
-    // Only Fabric. No Forge.
-    platformSetupLoomIde()
+repositories {
+    mavenCentral()
+    maven("https://maven.fabricmc.net/")
 }
 
-allprojects {
+dependencies {
+    // Minecraft
+    minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+    mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
 
-    apply(plugin = "java")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
+    // Fabric Loader
+    modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
-    version = project.properties["mod_version"]!!
-    group = project.properties["maven_group"]!!
+    // Fabric API (optional, but usually required)
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
+}
 
-    repositories {
-        mavenCentral()
+loom {
+    silentMojangMappingsLicense()
+}
 
-        // Cobblemon Maven
-        maven("https://maven.impactdev.net/repository/development/")
-
-        // In-project libs
-        flatDir {
-            dirs("libs")
-        }
-    }
-
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(21)) // REQUIRED for MC 1.21+
-        }
-        withSourcesJar()
-    }
-
-    dependencies {
-        implementation(kotlin("stdlib"))
-    }
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // MC 1.21.x REQUIRES Java 21
 }
