@@ -3,11 +3,16 @@ plugins {
     id("java-library")
     kotlin("jvm") version "2.0.20"
 
-    // Architectury Loom for MC 1.21.1
-    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
+    // Architectury plugin (used only at root)
+    id("architectury-plugin") version "3.4-SNAPSHOT"
 
-    // Architectury plugin (must match Architectury 13.x)
-    id("architectury-plugin") version "3.4-SNAPSHOT" apply false
+    // Loom (applied in subprojects, not root)
+    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
+}
+
+architectury {
+    // Only Fabric. No Forge.
+    platformSetupLoomIde()
 }
 
 allprojects {
@@ -24,7 +29,7 @@ allprojects {
         // Cobblemon Maven
         maven("https://maven.impactdev.net/repository/development/")
 
-        // In-project JAR libs folder
+        // In-project libs
         flatDir {
             dirs("libs")
         }
@@ -38,7 +43,6 @@ allprojects {
     }
 
     dependencies {
-        // Ensure all modules use Kotlin stdlib automatically
         implementation(kotlin("stdlib"))
     }
 }
